@@ -36,6 +36,23 @@ def update_bird():
     bird.y += (uv + bird.vy)/2
     bird.x = 75
 
+    if not bird.dead:
+        if bird.vy < -3:
+            bird.image = 'bird2'
+        else:
+            bird.image = 'bird1'
+
+    if bird.colliderect(pipe_top) or bird.colliderect(pipe_bottom):
+        bird.dead = True
+        bird.image = 'birddead'
+
+    if not 0 < bird.y < 720:
+        bird.y = 200
+        bird.dead = False
+        bird.score = 0
+        bird.vy = 0
+        reset_pipes()
+
 def update():
     update_pipes()
     update_bird()
@@ -50,18 +67,12 @@ def draw():
     pipe_top.draw()
     pipe_bottom.draw()
 
-
-
-
-
-
-
-
-
-
-
-
-
-    
+    screen.draw.text(
+        str(bird.score),
+        color='white',
+        midtop=(WIDTH//2, 10),
+        fontsize=70,
+        shadow=(1,1)
+    )
 
 pgzrun.go()
